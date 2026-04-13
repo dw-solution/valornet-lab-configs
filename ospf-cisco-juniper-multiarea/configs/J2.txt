@@ -1,0 +1,28 @@
+## ==================================================================
+## J2 - Juniper - Area 0 Backbone
+## Includes ge-0/0/1 stitching link to C2 (fixes discontiguous Area 0)
+## ==================================================================
+
+configure
+
+set system host-name J2
+
+set interfaces ge-0/0/0 unit 0 description "To J1 (Area 0)"
+set interfaces ge-0/0/0 unit 0 family inet address 192.168.1.17/30
+
+set interfaces ge-0/0/1 unit 0 description "To C2 (Area 0 - backbone stitching link)"
+set interfaces ge-0/0/1 unit 0 family inet address 192.168.1.26/30
+
+set interfaces ge-0/0/2 unit 0 description "To J3 (Area 0)"
+set interfaces ge-0/0/2 unit 0 family inet address 192.168.1.14/30
+
+set interfaces lo0 unit 0 family inet address 5.5.5.5/32
+
+set routing-options router-id 5.5.5.5
+
+set protocols ospf area 0.0.0.0 interface lo0.0 passive
+set protocols ospf area 0.0.0.0 interface ge-0/0/0.0
+set protocols ospf area 0.0.0.0 interface ge-0/0/1.0
+set protocols ospf area 0.0.0.0 interface ge-0/0/2.0
+
+commit

@@ -1,0 +1,30 @@
+! ===================================================================
+! C1 - Cisco - ABR between Area 0 and Area 1
+! ===================================================================
+
+enable
+configure terminal
+
+hostname C1
+
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+
+interface Ethernet0/0
+ description To C2 (Area 0)
+ ip address 192.168.1.1 255.255.255.252
+ no shutdown
+
+interface Ethernet0/1
+ description To J1 (Area 1)
+ ip address 192.168.1.22 255.255.255.252
+ no shutdown
+
+router ospf 1
+ router-id 1.1.1.1
+ network 1.1.1.1 0.0.0.0 area 0
+ network 192.168.1.0 0.0.0.3 area 0
+ network 192.168.1.20 0.0.0.3 area 1
+
+end
+write memory

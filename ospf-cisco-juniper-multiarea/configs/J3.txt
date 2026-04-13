@@ -1,0 +1,23 @@
+## ==================================================================
+## J3 - Juniper - ABR between Area 0 and Area 2
+## ==================================================================
+
+configure
+
+set system host-name J3
+
+set interfaces ge-0/0/0 unit 0 description "To C3 (Area 2)"
+set interfaces ge-0/0/0 unit 0 family inet address 192.168.1.10/30
+
+set interfaces ge-0/0/1 unit 0 description "To J2 (Area 0)"
+set interfaces ge-0/0/1 unit 0 family inet address 192.168.1.13/30
+
+set interfaces lo0 unit 0 family inet address 4.4.4.4/32
+
+set routing-options router-id 4.4.4.4
+
+set protocols ospf area 0.0.0.0 interface lo0.0 passive
+set protocols ospf area 0.0.0.0 interface ge-0/0/1.0
+set protocols ospf area 0.0.0.2 interface ge-0/0/0.0
+
+commit
