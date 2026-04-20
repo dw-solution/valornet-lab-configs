@@ -1,0 +1,52 @@
+! ============================================================================
+! T1 — Cisco IOSv — Tier-1 transit (AS 100)
+! ============================================================================
+! Stand-in for "the rest of the Internet." Originates 198.51.100.0/24 from
+! Loopback1 and peers eBGP with both ISPs (PE-A, PE-B). No filtering — T1
+! freely exchanges routes with the two ISPs so the prefix walk and
+! path-selection demos work in both directions.
+!
+! Interface naming: IOSv uses GigabitEthernet0/0, GigabitEthernet0/1, ...
+! Paste this entire block into a fresh T1 in EVE-NG.
+! ----------------------------------------------------------------------------
+
+enable
+configure terminal
+
+hostname T1
+
+no ip domain-lookup
+ip cef
+
+interface Loopback1
+ description Tier-1 advertised prefix 198.51.100.0/24
+ ip address 198.51.100.1 255.255.255.0
+ no shutdown
+
+interface GigabitEthernet0/0
+ description To PE-A Gi2 (ISP-A AS 200)
+ ip address 100.64.10.2 255.255.255.252
+ no shutdown
+
+interface GigabitEthernet0/1
+ description To PE-B ge-0/0/2 (ISP-B AS 300)
+ ip address 100.64.11.2 255.255.255.252
+ no shutdown
+
+router bgp 100
+ bgp router-id 198.51.100.1
+ bgp log-neighbor-changes
+ network 198.51.100.0 mask 255.255.255.0
+ neighbor 100.64.10.1 remote-as 200
+ neighbor 100.64.10.1 description PE-A (ISP-A)
+ neighbor 100.64.11.1 remote-as 300
+ neighbor 100.64.11.1 description PE-B (ISP-B)
+ !
+ address-family ipv4
+  network 198.51.100.0 mask 255.255.255.0
+  neighbor 100.64.10.1 activate
+  neighbor 100.64.11.1 activate
+ exit-address-family
+
+end
+write memory

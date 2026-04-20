@@ -1,0 +1,112 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.2.5 Chrome/138.0.7204.251 Electron/37.6.1 Safari/537.36" version="28.2.5">
+  <diagram name="BGP Internet Scale" id="bgp-internet-scale">
+    <mxGraphModel dx="1599" dy="843" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="BGP Internet Scale — Mini-Internet (4 ASes / 4 Routers)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="450" y="20" width="600" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="as100box" value="AS 100 — Tier-1 Transit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="600" y="70" width="220" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" value="T1&#xa;(IOSv)&#xa;Lo1: 198.51.100.1/24" style="shape=mxgraph.cisco.routers.router;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=11" parent="1" vertex="1">
+          <mxGeometry x="680" y="110" width="60" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="as200box" value="AS 200 — ISP-A" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="240" y="370" width="240" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="pea" value="PE-A&#xa;(C8000v)&#xa;Lo0: 10.0.2.1" style="shape=mxgraph.cisco.routers.router;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=11" parent="1" vertex="1">
+          <mxGeometry x="330" y="410" width="60" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="as300box" value="AS 300 — ISP-B" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="940" y="370" width="240" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="peb" value="PE-B&#xa;(vJunos)&#xa;lo0: 10.0.3.1" style="shape=mxgraph.cisco.routers.router;html=1;pointerEvents=1;dashed=0;fillColor=#8ea9db;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=11" parent="1" vertex="1">
+          <mxGeometry x="1030" y="410" width="60" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="as65001box" value="AS 65001 — Enterprise (announces 203.0.113.0/24)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;fontSize=12;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="580" y="670" width="260" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="ce1" value="CE-1&#xa;(C8000v)&#xa;Lo1: 203.0.113.1/24" style="shape=mxgraph.cisco.routers.router;html=1;pointerEvents=1;dashed=0;fillColor=#036897;strokeColor=#ffffff;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;fontSize=11" parent="1" vertex="1">
+          <mxGeometry x="680" y="710" width="60" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="e-pea-t1" style="edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;strokeWidth=2;" parent="1" source="pea" target="t1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-pea-t1-mid" value="eBGP 200↔100&#xa;100.64.10.0/30" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fillColor=#ffffff;strokeColor=none;" parent="e-pea-t1" vertex="1" connectable="0">
+          <mxGeometry x="0" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-pea-t1-src" value="PE-A Gi2&#xa;.1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1;fillColor=#ffffff;strokeColor=none;" parent="e-pea-t1" vertex="1" connectable="0">
+          <mxGeometry x="-0.7" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-pea-t1-dst" value="T1 Gi0/0&#xa;.2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1;fillColor=#ffffff;strokeColor=none;" parent="e-pea-t1" vertex="1" connectable="0">
+          <mxGeometry x="0.7" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-peb-t1" style="edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;strokeWidth=2;" parent="1" source="peb" target="t1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-peb-t1-mid" value="eBGP 300↔100&#xa;100.64.11.0/30" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fillColor=#ffffff;strokeColor=none;" parent="e-peb-t1" vertex="1" connectable="0">
+          <mxGeometry x="0" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-peb-t1-src" value="PE-B ge-0/0/2&#xa;.1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1;fillColor=#ffffff;strokeColor=none;" parent="e-peb-t1" vertex="1" connectable="0">
+          <mxGeometry x="-0.7" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-peb-t1-dst" value="T1 Gi0/1&#xa;.2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1;fillColor=#ffffff;strokeColor=none;" parent="e-peb-t1" vertex="1" connectable="0">
+          <mxGeometry x="0.7" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-ce1-pea" style="edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;strokeWidth=2;" parent="1" source="ce1" target="pea" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-ce1-pea-mid" value="eBGP 65001↔200&#xa;100.64.1.0/30" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fillColor=#ffffff;strokeColor=none;" parent="e-ce1-pea" vertex="1" connectable="0">
+          <mxGeometry x="0" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-ce1-pea-src" value="CE-1 Gi1&#xa;.1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1;fillColor=#ffffff;strokeColor=none;" parent="e-ce1-pea" vertex="1" connectable="0">
+          <mxGeometry x="-0.7" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-ce1-pea-dst" value="PE-A Gi1&#xa;.2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1;fillColor=#ffffff;strokeColor=none;" parent="e-ce1-pea" vertex="1" connectable="0">
+          <mxGeometry x="0.7" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-ce1-peb" style="edgeStyle=none;rounded=0;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;endArrow=none;strokeWidth=2;" parent="1" source="ce1" target="peb" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-ce1-peb-mid" value="eBGP 65001↔300&#xa;100.64.2.0/30" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fillColor=#ffffff;strokeColor=none;" parent="e-ce1-peb" vertex="1" connectable="0">
+          <mxGeometry x="0" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-ce1-peb-src" value="CE-1 Gi2&#xa;.1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1;fillColor=#ffffff;strokeColor=none;" parent="e-ce1-peb" vertex="1" connectable="0">
+          <mxGeometry x="-0.7" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-ce1-peb-dst" value="PE-B ge-0/0/1&#xa;.2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontStyle=1;fillColor=#ffffff;strokeColor=none;" parent="e-ce1-peb" vertex="1" connectable="0">
+          <mxGeometry x="0.7" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="legend" value="Legend:&#xa;Solid black = eBGP session (no IGP, no iBGP — every AS is single-router)&#xa;Bold labels at each endpoint show interface name and last octet of the IP&#xa;CE-1 announces 203.0.113.0/24   •   T1 announces 198.51.100.0/24" style="text;html=1;strokeColor=#cccccc;fillColor=#f5f5f5;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=10" parent="1" vertex="1">
+          <mxGeometry x="40" y="850" width="640" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

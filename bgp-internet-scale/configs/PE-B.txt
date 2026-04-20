@@ -1,0 +1,39 @@
+## ============================================================================
+## PE-B — Juniper vJunos — ISP-B provider edge (AS 300)
+## ============================================================================
+## Single-router AS, multi-vendor counterpart to PE-A. Two eBGP groups:
+## EBGP-CE-1 for the customer session south, EBGP-T1 for the transit session
+## north. Junos default behavior advertises all active BGP routes to eBGP
+## peers, so no export policy is needed for the demo.
+##
+## Paste this entire block from `configure exclusive` mode in a fresh PE-B.
+## ----------------------------------------------------------------------------
+
+configure exclusive
+
+set system host-name PE-B
+set system root-authentication encrypted-password "$6$placeholderhash"
+
+set interfaces lo0 unit 0 description "Router-ID"
+set interfaces lo0 unit 0 family inet address 10.0.3.1/32
+
+set interfaces ge-0/0/1 unit 0 description "To CE-1 Gi2 (Customer AS 65001)"
+set interfaces ge-0/0/1 unit 0 family inet address 100.64.2.2/30
+
+set interfaces ge-0/0/2 unit 0 description "To T1 Gi0/1 (Tier-1 AS 100)"
+set interfaces ge-0/0/2 unit 0 family inet address 100.64.11.1/30
+
+set routing-options router-id 10.0.3.1
+set routing-options autonomous-system 300
+
+set protocols bgp group EBGP-CE-1 type external
+set protocols bgp group EBGP-CE-1 description "Customer CE-1 in AS 65001"
+set protocols bgp group EBGP-CE-1 peer-as 65001
+set protocols bgp group EBGP-CE-1 neighbor 100.64.2.1
+
+set protocols bgp group EBGP-T1 type external
+set protocols bgp group EBGP-T1 description "Tier-1 transit T1 in AS 100"
+set protocols bgp group EBGP-T1 peer-as 100
+set protocols bgp group EBGP-T1 neighbor 100.64.11.2
+
+commit and-quit

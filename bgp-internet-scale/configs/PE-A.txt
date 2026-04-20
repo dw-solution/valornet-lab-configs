@@ -1,0 +1,51 @@
+! ============================================================================
+! PE-A — Cisco C8000v — ISP-A provider edge (AS 200)
+! ============================================================================
+! Single-router AS for the demo. Two eBGP sessions: south to CE-1 (the
+! customer in AS 65001), north to T1 (the Tier-1 transit in AS 100). No
+! filtering — PE-A passes everything it learns in both directions, which
+! is what makes the AS_PATH visibly stamp "200" on egress to T1 and lets
+! the prefix walk through cleanly.
+!
+! Interface naming: C8000v uses GigabitEthernet1, GigabitEthernet2, ...
+! Paste this entire block into a fresh PE-A in EVE-NG.
+! ----------------------------------------------------------------------------
+
+enable
+configure terminal
+
+hostname PE-A
+
+no ip domain-lookup
+ip cef
+
+interface Loopback0
+ description Router-ID
+ ip address 10.0.2.1 255.255.255.255
+ no shutdown
+
+interface GigabitEthernet1
+ description To CE-1 Gi1 (Customer AS 65001)
+ ip address 100.64.1.2 255.255.255.252
+ no shutdown
+
+interface GigabitEthernet2
+ description To T1 Gi0/0 (Tier-1 AS 100)
+ ip address 100.64.10.1 255.255.255.252
+ no shutdown
+
+router bgp 200
+ bgp router-id 10.0.2.1
+ bgp log-neighbor-changes
+ neighbor 100.64.1.1 remote-as 65001
+ neighbor 100.64.1.1 description CE-1 (Customer)
+ neighbor 100.64.10.2 remote-as 100
+ neighbor 100.64.10.2 description T1 (Tier-1)
+ !
+ address-family ipv4
+  neighbor 100.64.1.1 activate
+  neighbor 100.64.10.2 activate
+ exit-address-family
+
+end
+write memory

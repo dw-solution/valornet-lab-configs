@@ -1,0 +1,65 @@
+! ============================================================================
+! CE-1 — Cisco C8000v — Enterprise edge (AS 65001)
+! ============================================================================
+! Single CE, dual-homed to ISP-A (PE-A) and ISP-B (PE-B). Originates the
+! enterprise prefix 203.0.113.0/24 from Loopback1. Inbound LOCAL_PREF 200
+! on the PE-A session marks ISP-A as the primary outbound path. Outbound
+! prefix-list filter ensures CE-1 only ever announces its own /24 — never
+! a route leak.
+!
+! Interface naming: C8000v uses GigabitEthernet1, GigabitEthernet2, ...
+! Paste this entire block into a fresh CE-1 in EVE-NG. No further config
+! needed for the video.
+! ----------------------------------------------------------------------------
+
+enable
+configure terminal
+
+hostname CE-1
+
+no ip domain-lookup
+ip cef
+
+interface Loopback1
+ description Enterprise prefix 203.0.113.0/24
+ ip address 203.0.113.1 255.255.255.0
+ no shutdown
+
+interface GigabitEthernet1
+ description To PE-A Gi1 (ISP-A AS 200)
+ ip address 100.64.1.1 255.255.255.252
+ no shutdown
+
+interface GigabitEthernet2
+ description To PE-B ge-0/0/1 (ISP-B AS 300)
+ ip address 100.64.2.1 255.255.255.252
+ no shutdown
+
+ip prefix-list ANNOUNCE-OURS seq 5 permit 203.0.113.0/24
+
+route-map PREFER-PE-A-IN permit 10
+ set local-preference 200
+
+route-map OUT-TO-ISP permit 10
+ match ip address prefix-list ANNOUNCE-OURS
+
+router bgp 65001
+ bgp router-id 203.0.113.1
+ bgp log-neighbor-changes
+ network 203.0.113.0 mask 255.255.255.0
+ neighbor 100.64.1.2 remote-as 200
+ neighbor 100.64.1.2 description PE-A (ISP-A)
+ neighbor 100.64.2.2 remote-as 300
+ neighbor 100.64.2.2 description PE-B (ISP-B)
+ !
+ address-family ipv4
+  network 203.0.113.0 mask 255.255.255.0
+  neighbor 100.64.1.2 activate
+  neighbor 100.64.1.2 route-map PREFER-PE-A-IN in
+  neighbor 100.64.1.2 route-map OUT-TO-ISP out
+  neighbor 100.64.2.2 activate
+  neighbor 100.64.2.2 route-map OUT-TO-ISP out
+ exit-address-family
+
+end
+write memory
